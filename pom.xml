@@ -81,15 +81,15 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+</dependencies>
 		<!-- provided dependencies -->
-
+ 		<dependency>
 		
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 			<scope>provided</scope>
-		
+		<dependency>
 
 	</dependencies>
 
