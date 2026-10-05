@@ -81,7 +81,7 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-</dependencies>
+<dependencies>
 		<!-- provided dependencies -->
  		<dependency>
 		
@@ -91,7 +91,7 @@
 			<scope>provided</scope>
 		<dependency>
 
-	</dependencies>
+</dependencies>
 
 	<distributionManagement>
 	    <repository>
