@@ -23,17 +23,17 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps{
-                sh 'docker build -t Abusule/tomcat:latest .'
+                sh 'docker build -t abusule/tomcat:latest .'
                 withCredentials([usernamePassword(credentialsId: 'docker_hub_cred', passwordVariable: 'DH_TOKEN', usernameVariable: 'DH_USER')]) {
                   sh 'echo $DH_TOKEN | docker login -u $DH_USER --password-stdin'
-                  sh 'docker push Abusule/tomcat:latest'
+                  sh 'docker push abusule/tomcat:latest'
                 }
             }
         }
         stage('Deploy') {
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC_KEY', usernameVariable: 'EC_USER')]) {
-                    sh 'ssh -i $EC_KEY -o StrictHostKeyChecking=no $EC_USER@15.157.61.120 "docker rm -f acada-web || true; docker pull Abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web Abusule/tomcat:latest"'
+                    sh 'ssh -i $EC_KEY -o StrictHostKeyChecking=no $EC_USER@15.157.61.120 "docker rm -f acada-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web abusule/tomcat:latest"'
                 }
             }
         }
