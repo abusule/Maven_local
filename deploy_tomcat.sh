@@ -3,7 +3,7 @@
 
 
 # echo "Deploying webapp containers..."
-docker pull kniru/tomcat:latest
+docker pull Abusule/tomcat:latest
 
 echo "Creating network"
 docker network create acada-app

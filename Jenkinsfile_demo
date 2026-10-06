@@ -17,15 +17,15 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'whoami'
-                sh 'docker build -t kniru/tomcat:${BUILD_NUMBER} .'
-                sh 'docker tag kniru/tomcat:${BUILD_NUMBER} kniru/tomcat:latest'
+                sh 'docker build -t Abusule/tomcat:${BUILD_NUMBER} .'
+                sh 'docker tag Abusule/tomcat:${BUILD_NUMBER} Abusule/tomcat:latest'
             }
         }
         stage('Push Image to Repo') {
             steps{
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                     sh 'echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin'
-                    sh 'docker push kniru/tomcat:latest'
+                    sh 'docker push Abusule/tomcat:latest'
                 }
             }
         }
@@ -33,8 +33,8 @@ pipeline {
             steps{
                 sshagent(['agent_private_key']) {
                     
-                    sh 'scp load_config/haproxy.cfg deploy.sh kniru@192.168.2.141:/opt/docker_config_files/'
-                    sh 'ssh kniru@192.168.2.141 "bash /opt/docker_config_files/deploy.sh"'
+                    sh 'scp load_config/haproxy.cfg deploy.sh Abusule@192.168.2.141:/opt/docker_config_files/'
+                    sh 'ssh Abusule@192.168.2.141 "bash /opt/docker_config_files/deploy.sh"'
                 }
             }
         }
