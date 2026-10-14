@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps{
-                git branch: 'main', credentialsId: 'gitlab_pat', url: 'https://github.com/udodi05/docker_local.git'
+                git branch: 'main', url: 'https://github.com/abusule/Maven_local.git'
             }
         }
         stage('Sonar Scan') {
@@ -24,7 +24,7 @@ pipeline {
         stage('Docker Build & Push') {
             steps{
                 sh 'docker build -t abusule/tomcat:latest .'
-                withCredentials([usernamePassword(credentialsId: 'docker_hub_cred', passwordVariable: 'DH_TOKEN', usernameVariable: 'DH_USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'dh_token_cred', passwordVariable: 'dh_token', usernameVariable: 'dh_user')]) {
                   sh 'echo $DH_TOKEN | docker login -u $DH_USER --password-stdin'
                   sh 'docker push abusule/tomcat:latest'
                 }
@@ -32,8 +32,8 @@ pipeline {
         }
         stage('Deploy') {
             steps{
-                withCredentials([sshUserPrivateKey(credentialsId: 'ec2_key', keyFileVariable: 'EC_KEY', usernameVariable: 'EC_USER')]) {
-                    sh 'ssh -i $EC_KEY -o StrictHostKeyChecking=no $EC_USER@15.157.61.120 "docker rm -f acada-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web abusule/tomcat:latest"'
+                withCredentials([sshUserPrivateKey(credentialsId: 'aws_key', keyFileVariable: 'aws_key', usernameVariable: 'aws_user')]) {
+                    sh 'ssh -i $aws_key -o StrictHostKeyChecking=no $aws_user@3.21.169.109 "docker rm -f acada-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web abusule/tomcat:latest"'
                 }
             }
         }
