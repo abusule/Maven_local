@@ -25,7 +25,7 @@ pipeline {
             steps{
                 sh 'docker build -t abusule/tomcat:latest .'
                 withCredentials([usernamePassword(credentialsId: 'dh_token_cred', passwordVariable: 'dh_token', usernameVariable: 'dh_user')]) {
-                  sh 'echo $DH_TOKEN | docker login -u $DH_USER --password-stdin'
+                  sh 'echo $dh_token | docker login -u $dh_user --password-stdin'
                   sh 'docker push abusule/tomcat:latest'
                 }
             }
