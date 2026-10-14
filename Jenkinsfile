@@ -12,7 +12,7 @@ pipeline {
         stage('Sonar Scan') {
             steps{
               withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=acada-webapp -Dsonar.projectName='acada-webapp' -Dsonar.host.url=http://35.183.105.208:9000 -Dsonar.token=$SONAR_TOKEN"
+                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fafs-app -Dsonar.projectName='fafs-app' -Dsonar.host.url=http://35.183.105.208:9000 -Dsonar.token=$SONAR_TOKEN"
                 }  
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'aws_key', keyFileVariable: 'aws_key', usernameVariable: 'aws_user')]) {
-                    sh 'ssh -i $aws_key -o StrictHostKeyChecking=no $aws_user@3.21.169.109 "docker rm -f acada-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web abusule/tomcat:latest"'
+                    sh 'ssh -i $aws_key -o StrictHostKeyChecking=no $aws_user@3.21.169.109 "docker rm -f fafs-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name acada-web abusule/tomcat:latest"'
                 }
             }
         }
