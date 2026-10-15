@@ -12,7 +12,7 @@ pipeline {
         stage('Sonar Scan') {
             steps{
               withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=fafs-app -Dsonar.projectName='fafs-app' -Dsonar.host.url=http://18.226.97.238:9000 -Dsonar.token=$SONAR_TOKEN"
+                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devopsweb-app -Dsonar.projectName='devopsweb-app' -Dsonar.host.url=http://34.228.236.7:9000 -Dsonar.token=$SONAR_TOKEN"
                 }  
             }
         }
