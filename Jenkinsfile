@@ -11,11 +11,13 @@ pipeline {
         }
         stage('Sonar Scan') {
             steps{
-              sh "mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-                -Dsonar.projectKey=devopsweb \
-                -Dsonar.projectName='devopsweb' \
-                -Dsonar.host.url=http://13.58.198.47:9000 \
-                -Dsonar.token=sqp_4a3a67e8d00112a1b57f856432ef7b1cbeb24d78"
+                withCredentials([string(credentialsId: 'SONAR_SECRET', variable: 'SONAR_TOKEN')]) {
+                    sh "mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                        -Dsonar.projectKey=devopsweb \
+                        -Dsonar.projectName='devopsweb' \
+                        -Dsonar.host.url=http://13.58.198.47:9000 \
+                        -Dsonar.token=$SONAR_TOKEN"
+                }
             }
         }
 
