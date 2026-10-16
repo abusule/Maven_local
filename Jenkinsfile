@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Sonar Scan') {
             steps{
-              withCredentials([string(credentialsId: 'SONAR_SECRET', variable: 'sonar_secret')]) {
+              withCredentials([string(credentialsId: 'SONAR_SECRET', variable: 'SONAR_SECRET')]) {
                 sh "echo $SONAR_SECRET"
                 sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devopswep -Dsonar.projectName='devopswep' -Dsonar.host.url=http://13.58.198.47:9000 -Dsonar.token=$sonar_secret"
                 }  
