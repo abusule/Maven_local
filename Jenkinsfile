@@ -11,8 +11,8 @@ pipeline {
         }
         stage('Sonar Scan') {
             steps{
-              withCredentials([string(credentialsId: 'sonar_token', variable: 'SONAR_TOKEN')]) {
-                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devopsweb-app -Dsonar.projectName='devopsweb-app' -Dsonar.host.url=http://34.228.236.7:9000 -Dsonar.token=$SONAR_TOKEN"
+              withCredentials([string(credentialsId: 'SONAR_SECRET', variable: 'sonar_secret')]) {
+                sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=devopswep -Dsonar.projectName='devopswep' -Dsonar.host.url=http://13.58.198.47:9000 -Dsonar.token=$SONAR_TOKEN"
                 }  
             }
         }
@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') {
             steps{
                 withCredentials([sshUserPrivateKey(credentialsId: 'AWS_KEY', keyFileVariable: 'AWS_KEY', usernameVariable: 'AWS_USER')]) {
-                    sh 'ssh -i $AWS_KEY -o StrictHostKeyChecking=no $AWS_USER@3.134.89.13 "docker rm -f fafs-web || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name fafs-web abusule/tomcat:latest"'
+                    sh 'ssh -i $AWS_KEY -o StrictHostKeyChecking=no $AWS_USER@18.216.228.129 "docker rm -f devopsweb-app || true; docker pull abusule/tomcat:latest ;  docker run -d -p 8080:8080 --name devopsweb-app abusule/tomcat:latest"'
                 }
             }
         }
